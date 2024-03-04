@@ -1,4 +1,12 @@
 package com.videohub.videohub.repository;
 
-public interface CategoryRepository {
+import com.videohub.videohub.domain.Category;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface CategoryRepository extends MongoRepository<Category, String> {
+    Optional<Category> findByName(String categoryName);
 }
