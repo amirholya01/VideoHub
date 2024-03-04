@@ -13,13 +13,28 @@ import java.util.Set;
 @Document(collection = "categories")
 public class Category {
 
+    /**
+     * The unique identifier for the category.
+     */
     @Id
     private String id;
+
+    /**
+     * The name of the category.
+     */
     @NotBlank
     private String name;
+
+    /**
+     * The description of the category.
+     */
     @NotBlank
     private String description;
 
+    /**
+     * The set of videos associated with the category.
+     * Uses MongoDB's DBRef to establish a reference to Video entities.
+     */
     @DBRef
     private Set<Video> videos = new HashSet<>();
 }
