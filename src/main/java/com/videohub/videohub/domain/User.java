@@ -8,6 +8,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Data
 @Document(collection = "users")
 public class User {
@@ -27,4 +29,6 @@ public class User {
     @JsonIgnore
     private String password;
     private Integer active;
+    private Date created;
+    private Date modified;
 }
