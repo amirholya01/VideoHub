@@ -7,9 +7,11 @@ import com.videohub.videohub.domain.User;
 import com.videohub.videohub.enums.ERole;
 import com.videohub.videohub.repository.RoleRepository;
 import com.videohub.videohub.repository.UserRepository;
+import com.videohub.videohub.security.service.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -101,4 +103,18 @@ public class UserService {
     }
 
 
+    /**
+     * Finds a user by authentication token.
+     *
+     * @param authentication Authentication object containing user details
+     * @return UserDetailsImpl containing user details retrieved from the authentication token
+     */
+    public UserDetailsImpl findUserByToken(Authentication authentication){
+        // Extract username from authentication
+        String username = authentication.getName();
+        // Retrieve user details from authentication principal
+        UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
+        // Return UserDetailsImpl containing user details
+        return user;
+    }
 }
