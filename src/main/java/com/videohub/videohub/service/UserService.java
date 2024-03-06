@@ -77,6 +77,28 @@ public class UserService {
     }
 
 
+    /**
+     * Finds a user by ID.
+     *
+     * @param userId ID of the user to find
+     * @return UserResponse containing user details if found, otherwise returns status false
+     */
+    public UserResponse findUserById(String userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isEmpty()) {
+            // Return status false if user not found
+            return UserResponse.builder().status(Boolean.FALSE).build();
+        }
+        // Return UserResponse with user details
+        return UserResponse.builder()
+                .status(Boolean.TRUE)
+                .id(user.get().getId())
+                .username(user.get().getUsername())
+                .email(user.get().getEmail())
+                .authorities(user.get().getAuthorities())
+                .active(user.get().getActive())
+                .build();
+    }
 
 
 }
