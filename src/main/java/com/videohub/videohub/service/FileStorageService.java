@@ -26,7 +26,7 @@ public class FileStorageService {
 
     private final Path fileStorageLocation;
 
-    @Value("$videoHub.file.extension")
+    @Value("${videoHub.file.extension}")
     private String[] fileExtension;
 
     /**
