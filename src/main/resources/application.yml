@@ -6,7 +6,7 @@ spring:
       max-request-size: -1
   data:
     mongodb:
-      uri: mongodb+srv://amirholya01:amir1365@cluster0.og6zorb.mongodb.net/java?retryWrites=true&w=majority
+      uri: mongodb+srv://amirholya01:amir1365@cluster0.og6zorb.mongodb.net/VideoHub?retryWrites=true&w=majority
 
 
 videoHub:
