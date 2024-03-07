@@ -61,7 +61,7 @@ import java.util.List;
             return videoService.downloadFile(id, request);
         }
 
-        // TODO: 2/13/24 response
+
         @DeleteMapping("{id}")
         @PreAuthorize("hasRole('ADMIN')")
         @SecurityRequirement(name = "Bearer Authentication")
