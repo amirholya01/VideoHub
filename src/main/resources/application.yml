@@ -15,4 +15,4 @@ videoHub:
     jwtExpirationMs: 864000000
   file:
     extension: mp4, mkv, webm, mpg, 3gp, avi, tc
-    path: /Users/amirhosseinolya/Desktop/final-app/youtube
+    path: \Users\amirh\OneDrive\Desktop\Final-Bachelor-Project\Final-Bachelor-Project\VideoHub
