@@ -9,6 +9,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -25,6 +26,9 @@ import java.util.Arrays;
 public class FileStorageService {
 
     private final Path fileStorageLocation;
+
+    @Value("${videoHub.file.path}")
+    public String path;
 
     @Value("${videoHub.file.extension}")
     private String[] fileExtension;
@@ -84,7 +88,8 @@ public class FileStorageService {
     public Resource loadFileAsResource(String fileName) {
         try {
             // Resolve file path
-            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            File file = new File(path + fileName);
+            Path filePath = Paths.get(file.getAbsolutePath());
             // Create Resource object from file path
             Resource resource = new UrlResource(filePath.toUri());
             // Check if resource exists
