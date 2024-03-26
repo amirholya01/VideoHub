@@ -22,7 +22,7 @@ public class CategoryController {
 
     // Endpoint to create a new category (requires ADMIN role)
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")  // Allowing only users with ADMIN role to access this endpoint
+   // @PreAuthorize("hasRole('ADMIN')")  // Allowing only users with ADMIN role to access this endpoint
     @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<Category> create(@Valid @RequestBody Category category) {
         return new ResponseEntity<>(categoryService.create(category), HttpStatus.OK);
@@ -31,7 +31,7 @@ public class CategoryController {
 
     // Endpoint to retrieve all categories (requires ADMIN role)
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")  // Allowing only users with ADMIN role to access this endpoint
+   // @PreAuthorize("hasRole('ADMIN')")  // Allowing only users with ADMIN role to access this endpoint
     @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<List<Category>> findAllCategory() {
         return new ResponseEntity<>(categoryService.findAllCategory(), HttpStatus.OK);
@@ -40,7 +40,7 @@ public class CategoryController {
 
     // Endpoint to find category by ID (requires ADMIN role)
     @GetMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN')")  // Allowing only users with ADMIN role to access this endpoint
+   // @PreAuthorize("hasRole('ADMIN')")  // Allowing only users with ADMIN role to access this endpoint
     @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<Category> findCategoryById(@PathVariable String id) {
         return new ResponseEntity<>(categoryService.findCategoryById(id), HttpStatus.OK);

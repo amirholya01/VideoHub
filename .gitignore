@@ -6,6 +6,7 @@ target/
 uploads/
 *.mp4
 
+
 ### STS ###
 .apt_generated
 .classpath
