@@ -85,7 +85,7 @@ public class VideoService {
         // Check if file format is valid
         if (fileStorageService.checkFormat(file.getContentType())) {
             // Generate unique file name
-            String fileName = extractedNameFile(fileStorageService.prefixFile(file.getContentType()));
+            String fileName = extractedNameFile(fileStorageService.prefixFile(file.getContentType())).replace(":", "_");
 
             // Retrieve current user
             User user = new User();
@@ -102,6 +102,13 @@ public class VideoService {
 
             // Save the video
             Video videoCreated = videoRepository.save(video);
+
+            try {
+                Path path = Paths.get(fileStorageService.path, fileName);
+                Files.copy(file.getInputStream(), path);
+            } catch (Exception e) {
+                // todo
+            }
 
             return ResponseEntity.ok(video);
         }
