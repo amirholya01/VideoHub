@@ -1,9 +1,11 @@
 package com.videohub.videohub.service;
 
 import com.videohub.videohub.domain.Category;
+import com.videohub.videohub.domain.Rate;
 import com.videohub.videohub.domain.User;
 import com.videohub.videohub.domain.Video;
 import com.videohub.videohub.repository.CategoryRepository;
+import com.videohub.videohub.repository.RateRepository;
 import com.videohub.videohub.repository.UserRepository;
 import com.videohub.videohub.repository.VideoRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,6 +51,9 @@ public class VideoService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RateRepository rateRepository;
 
     @Value("${videoHub.file.path}")
     private String path;
@@ -100,8 +105,17 @@ public class VideoService {
             video.setCreated(new Date());
             video.setModified(new Date());
 
+            Rate rate = new Rate();
+            rate.setLike(0);
+            rate.setDisLike(0);
+
+            video.setRate(rate);
             // Save the video
             Video videoCreated = videoRepository.save(video);
+            rate.setVideoId(videoCreated.getId());
+            rate = rateRepository.save(rate);
+            videoCreated.setRate(rate);
+            videoRepository.save(videoCreated);
 
             try {
                 Path path = Paths.get(fileStorageService.path, fileName);
