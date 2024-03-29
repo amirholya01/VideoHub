@@ -3,6 +3,7 @@ package com.videohub.videohub.domain;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.util.Date;
 
@@ -55,6 +56,9 @@ public class Video {
      * The category to which the video belongs.
      */
     private Category category;
+
+    @DocumentReference(lazy = true)
+    private Rate rate;
 
     /**
      * Default constructor for the Video class.
