@@ -71,6 +71,7 @@ public class User {
     @DBRef
     private Set<Video> videos = new HashSet<>();
 
+    @DBRef
     private Set<Rate> rates = new HashSet<>();
 
     /**
