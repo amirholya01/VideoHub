@@ -71,6 +71,8 @@ public class User {
     @DBRef
     private Set<Video> videos = new HashSet<>();
 
+    private Set<Rate> rates = new HashSet<>();
+
     /**
      * The date when the user account was created.
      */

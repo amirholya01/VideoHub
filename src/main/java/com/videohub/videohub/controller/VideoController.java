@@ -1,12 +1,14 @@
 package com.videohub.videohub.controller;
 
 import com.videohub.videohub.domain.Video;
+import com.videohub.videohub.service.FileDownloadUtil;
 import com.videohub.videohub.service.VideoService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -51,8 +53,8 @@ public class VideoController {
      * @return List of videos.
      */
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-    @SecurityRequirement(name = "Bearer Authentication")
+    //@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    //@SecurityRequirement(name = "Bearer Authentication")
     public List<Video> videos() {
         return videoService.findAllVideo();
     }
@@ -78,7 +80,7 @@ public class VideoController {
      */
     @CrossOrigin
     @GetMapping("/download/{id:.+}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    //@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<Resource> downloadFile(@PathVariable String id, HttpServletRequest request) {
         return videoService.downloadFile(id, request);
@@ -115,5 +117,34 @@ public class VideoController {
     @GetMapping("downloadVideo/{id}")
     public ResponseEntity getVideo(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
         return videoService.getByteArrayResourceResponseEntity(id);
+    }
+
+    /**
+     * Retrieves and downloads a video file based on the provided file code.
+     *
+     * @param fileCode The unique code identifying the video file.
+     * @return ResponseEntity containing the video file if found, or appropriate error response.
+     */
+    @GetMapping(path = "show/{fileCode}", produces = "video/mp4")
+    public ResponseEntity<?> showAndDownloadVideo(@PathVariable("fileCode") String fileCode) {
+        FileDownloadUtil downloadUtil = new FileDownloadUtil();
+        Resource resource = null;
+        try {
+            resource = downloadUtil.getFileAsResource(fileCode);
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+
+        if (resource == null) {
+            return new ResponseEntity<>("File not found", HttpStatus.NOT_FOUND);
+        }
+
+        String contentType = "application/octet-stream";
+        String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
+                .body(resource);
     }
 }
